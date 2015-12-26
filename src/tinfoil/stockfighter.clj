@@ -1,5 +1,5 @@
 (ns tinfoil.stockfighter
-  (:require [tinfoil.core :refer [wrap]]
+  (:require [tinfoil.core :refer [wrap defwrappedapi]]
             [tinfoil.protocols :as p]
             [tinfoil.impl.clj-http :refer [+clj-http+]]
             [tinfoil.impl.tinfoil :refer [+tinfoil+]]))
@@ -19,10 +19,17 @@
   {:request-url (fn [this url opts] (str (:base-url this) (build-url url (:url-params opts))))
    :request-headers (fn [this url opts] {(:auth-header this) (:api-key this)})})
 
-(defrecord StockFighterAPI
-    [base-url api-key auth-header])
+;; Without macro
+;; (defrecord StockFighterAPI
+;;     [base-url api-key auth-header])
 
-(wrap StockFighterAPI +clj-http+ (merge +tinfoil+ +stockfighter+))
+;; (wrap StockFighterAPI +clj-http+ (merge +tinfoil+ +stockfighter+))
+
+;; With macro
+(defwrappedapi StockFighterAPI
+  [base-url api-key auth-header]
+  +clj-http+
+  (merge +tinfoil+ +stockfighter+))
 
 (def +sf+ (map->StockFighterAPI {:base-url "https://api.stockfighter.io/ob/api"
                                  :api-key ""

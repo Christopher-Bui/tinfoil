@@ -8,3 +8,11 @@
     http-impl
     p/Tinfoil
     tinfoil-impl))
+
+(defmacro defwrappedapi
+  [name fields http-impl tinfoil-impl]
+  (assert (vector? fields) "Fields must be a vector.")
+  `(do
+     (defrecord ~name
+         ~fields)
+     (wrap ~name ~http-impl ~tinfoil-impl)))
