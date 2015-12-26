@@ -9,7 +9,7 @@
           (req-fn (p/request-url this url opts)
                   (merge {:headers (p/request-headers this url opts)
                           :body (p/request-body this url opts)}
-                         opts))]
+                         (p/request-opts this url opts)))]
       {:headers (p/response-headers this headers)
        :body (p/response-body this body)
        :status (p/response-status this status)})))
