@@ -24,5 +24,9 @@
                          :secret-key ""}))
 
 (defn balance
-  []
-  (p/get +api+ "/balance" {}))
+  [api]
+  (p/get api "/balance" {}))
+
+(comment
+  (balance +api+)
+  )

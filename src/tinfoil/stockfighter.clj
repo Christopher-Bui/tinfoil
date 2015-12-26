@@ -36,19 +36,33 @@
                                  :auth-header "X-Stockfighter-Authorization"}))
 
 (defn heartbeat
-  []
-  (p/get +sf+ "/heartbeat" {}))
+  [api]
+  (p/get api "/heartbeat" {}))
 
 (defn venue-heartbeat
-  [venue]
-  (p/get +sf+ "/venues/:venue/heartbeat" {:url-params {:venue venue}}))
+  [api venue]
+  (p/get api "/venues/:venue/heartbeat" {:url-params {:venue venue}}))
 
 (defn venue-stocks
-  [venue]
-  (p/get +sf+ "/venues/:venue/stocks" {:url-params {:venue venue}}))
+  [api venue]
+  (p/get api "/venues/:venue/stocks" {:url-params {:venue venue}}))
+
+(defn all-order-statuses
+  [api venue account]
+  (p/get api "venues/:venue/accounts/:account/orders" {:url-params {:venue venue
+                                                                     :account account}}))
+
+(defn cancel-order
+  [api venue stock order-id]
+  (p/delete api "/venues/:venue/stocks/:stock/order/:order" {:url-params {:venue venue
+                                                                           :stock stock
+                                                                           :order order-id}}))
 
 (comment
-  (heartbeat)
-  (venue-heartbeat "TESTEX")
-  (venue-stocks "TESTEX")
+  (heartbeat +sf+)
+  (venue-heartbeat +sf+ "TESTEX")
+  (venue-stocks +sf+ "TESTEX")
+  ;; 404s with test acct
+  (all-order-statuses +sf+ "TESTEX" "EXB123456")
+  (cancel-order +sf+ "TESTEX" "FOOBAR" "12")
   )
