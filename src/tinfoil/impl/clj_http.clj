@@ -7,9 +7,9 @@
   (fn [this url opts]
     (let [{:keys [headers body status]}
           (req-fn (tin/request-url this url opts)
-                  (merge {:headers (tin/request-headers this url opts)
-                          :body (tin/request-body this url opts)}
-                         (tin/request-opts this url opts)))]
+                  (tin/request-opts this url (merge opts
+                                                    {:headers (tin/request-headers this url opts)
+                                                     :body (tin/request-body this url opts)})))]
       (tin/response this {:headers (tin/response-headers this headers)
                           :body (tin/response-body this body)
                           :status (tin/response-status this status)}))))

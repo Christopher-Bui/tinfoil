@@ -8,9 +8,9 @@
   (fn [this url opts]
     (let [response-chan (a/chan 1)]
       (req-fn (tin/request-url this url opts)
-              (merge {:headers (tin/request-headers this url opts)
-                      :body (tin/request-body this url opts)}
-                     (tin/request-opts this url opts))
+              (tin/request-opts this url (merge opts
+                                                {:headers (tin/request-headers this url opts)
+                                                 :body (tin/request-body this url opts)}))
               (fn [{:keys [status headers body error]}]
                 (a/put! response-chan 
                         (tin/response this
