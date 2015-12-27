@@ -10,9 +10,9 @@
                   (merge {:headers (tin/request-headers this url opts)
                           :body (tin/request-body this url opts)}
                          (tin/request-opts this url opts)))]
-      {:headers (tin/response-headers this headers)
-       :body (tin/response-body this body)
-       :status (tin/response-status this status)})))
+      (tin/response this {:headers (tin/response-headers this headers)
+                          :body (tin/response-body this body)
+                          :status (tin/response-status this status)}))))
 
 (def +clj-http+
   {:get (make-req-fn client/get)
