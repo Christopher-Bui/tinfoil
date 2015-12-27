@@ -1,12 +1,14 @@
 (ns tinfoil.core
-  (:require [tinfoil.protocols :as p]))
+  (:require [tinfoil.protos
+             [http :as http]
+             [tinfoil :as tin]]))
 
 (defn wrap
   [type http-impl tinfoil-impl]
   (extend type
-    p/Http
+    http/Http
     http-impl
-    p/Tinfoil
+    tin/Tinfoil
     tinfoil-impl))
 
 (defmacro defwrappedapi

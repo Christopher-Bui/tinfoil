@@ -1,18 +1,18 @@
 (ns tinfoil.impl.clj-http
   (:require [clj-http.client :as client]
-            [tinfoil.protocols :as p]))
+            [tinfoil.protos.tinfoil :as tin]))
 
 (defn- make-req-fn
   [req-fn]
   (fn [this url opts]
     (let [{:keys [headers body status]}
-          (req-fn (p/request-url this url opts)
-                  (merge {:headers (p/request-headers this url opts)
-                          :body (p/request-body this url opts)}
-                         (p/request-opts this url opts)))]
-      {:headers (p/response-headers this headers)
-       :body (p/response-body this body)
-       :status (p/response-status this status)})))
+          (req-fn (tin/request-url this url opts)
+                  (merge {:headers (tin/request-headers this url opts)
+                          :body (tin/request-body this url opts)}
+                         (tin/request-opts this url opts)))]
+      {:headers (tin/response-headers this headers)
+       :body (tin/response-body this body)
+       :status (tin/response-status this status)})))
 
 (def +clj-http+
   {:get (make-req-fn client/get)

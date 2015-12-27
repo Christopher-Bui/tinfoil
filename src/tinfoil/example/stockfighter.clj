@@ -1,8 +1,9 @@
-(ns tinfoil.stockfighter
-  (:require [tinfoil.core :refer [wrap defwrappedapi]]
-            [tinfoil.protocols :as p]
-            [tinfoil.impl.clj-http :refer [+clj-http+]]
-            [tinfoil.impl.tinfoil :refer [+tinfoil+]]))
+(ns tinfoil.example.stockfighter
+  (:require [tinfoil.core :refer [defwrappedapi]]
+            [tinfoil.protos.http :as http]
+            [tinfoil.impl
+             [clj-http :refer [+clj-http+]]
+             [tinfoil :refer [+tinfoil+]]]))
 
 ;; Stockfighter API helpers
 (def ^:private ->kw-str (comp str keyword))
@@ -37,26 +38,26 @@
 
 (defn heartbeat
   [api]
-  (p/get api "/heartbeat" {}))
+  (http/get api "/heartbeat" {}))
 
 (defn venue-heartbeat
   [api venue]
-  (p/get api "/venues/:venue/heartbeat" {:url-params {:venue venue}}))
+  (http/get api "/venues/:venue/heartbeat" {:url-params {:venue venue}}))
 
 (defn venue-stocks
   [api venue]
-  (p/get api "/venues/:venue/stocks" {:url-params {:venue venue}}))
+  (http/get api "/venues/:venue/stocks" {:url-params {:venue venue}}))
 
 (defn all-order-statuses
   [api venue account]
-  (p/get api "venues/:venue/accounts/:account/orders" {:url-params {:venue venue
-                                                                     :account account}}))
+  (http/get api "venues/:venue/accounts/:account/orders" {:url-params {:venue venue
+                                                                       :account account}}))
 
 (defn cancel-order
   [api venue stock order-id]
-  (p/delete api "/venues/:venue/stocks/:stock/order/:order" {:url-params {:venue venue
-                                                                           :stock stock
-                                                                           :order order-id}}))
+  (http/delete api "/venues/:venue/stocks/:stock/order/:order" {:url-params {:venue venue
+                                                                             :stock stock
+                                                                             :order order-id}}))
 
 (comment
   (heartbeat +sf+)

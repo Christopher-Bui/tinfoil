@@ -1,8 +1,9 @@
-(ns tinfoil.stripe
+(ns tinfoil.example.stripe
   (:require [tinfoil.core :refer [defwrappedapi]]
-            [tinfoil.protocols :as p]
-            [tinfoil.impl.clj-http :refer [+clj-http+]]
-            [tinfoil.impl.tinfoil :refer [+tinfoil+]]))
+            [tinfoil.protos.http :as http]
+            [tinfoil.impl
+             [clj-http :refer [+clj-http+]]
+             [tinfoil :refer [+tinfoil+]]]))
 
 (def +stripe+
   {:request-url (fn [this url opts]
@@ -25,7 +26,7 @@
 
 (defn balance
   [api]
-  (p/get api "/balance" {}))
+  (http/get api "/balance" {}))
 
 (comment
   (balance +api+)
